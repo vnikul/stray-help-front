@@ -1,19 +1,30 @@
-<script setup lang="ts">
+<script lang="ts">
 import { reactive } from "vue"
-import { ElInput } from "element-plus"
-import { api } from "@/services/api"
 import type { NewUserRequest } from "@/services/requests"
+import { useRouter } from "vue-router"
+import { useUserStore } from "@/stores/userStore"
 
-function onSubmit() {
-    console.log("submitting")
-    api.createUser(form)
+export default {
+    setup() {
+        const router = useRouter()
+
+        const store = useUserStore()
+
+        const form: NewUserRequest = reactive({
+            email: "",
+            phone: "",
+            password: "",
+        })
+
+        async function onSubmit() {
+            store.authorize(form)
+            await router.push({ name: "home" })
+            console.log("after push")
+        }
+
+        return { form, onSubmit, store }
+    },
 }
-
-const form: NewUserRequest = reactive({
-    email: "",
-    phone: "",
-    password: "",
-})
 </script>
 
 <template>
@@ -32,4 +43,5 @@ const form: NewUserRequest = reactive({
             <el-button>Cancel</el-button>
         </el-form-item>
     </el-form>
+    <router-link to="/signin">Already have an account?</router-link>
 </template>

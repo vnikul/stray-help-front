@@ -1,13 +1,30 @@
-<script setup lang="ts">
-import AuthComponent from '@/components/AuthComponent.vue'
+<script lang="ts">
+import LoginView from "@/views/LoginView.vue"
+import HomeView from "@/views/HomeView.vue"
+
+export default {
+    components: { LoginView, HomeView },
+    setup() {
+        function isAuthorized() {
+            const jwt = window.localStorage.getItem("jwt")
+            const refresh = window.localStorage.getItem("refresh")
+            return jwt !== null && refresh !== null
+        }
+
+        return { isAuthorized }
+    },
+}
 </script>
 
 <template>
-    <header>
-        <div class="wrapper">
-            <AuthComponent />
-        </div>
-    </header>
+    <header></header>
+    <router-view />
+    <div v-if="!isAuthorized()">
+        <LoginView />
+    </div>
+    <div v-else>
+        <HomeView />
+    </div>
 </template>
 
 <style>

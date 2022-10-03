@@ -3,3 +3,8 @@ export interface NewUserRequest {
     phone: string
     password: string
 }
+
+export interface SignInRequest {
+    username: string
+    password: string
+}

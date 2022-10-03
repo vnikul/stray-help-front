@@ -17,7 +17,7 @@ export interface UserResponse {
     phone: string
 }
 
-export interface NewUserResponse {
+export interface AuthResponse {
     token: string
     refresh_token: string
 }
